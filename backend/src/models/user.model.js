@@ -89,7 +89,7 @@ userSchema.methods.isPasswordMatched = async function (enteredPassword) {
 
 export const generateRefreshToken = async (id) => {
   return jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: process.env.c,
+    expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
   });
 };
 
