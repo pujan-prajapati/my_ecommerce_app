@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lilita+One&family=Poppins:wght@500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+}
+
+html.dark,
+body.dark {
+  background-color: #2f2f2f;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  @apply dark:text-gray-100;
+}
+
+div > h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  @apply dark:text-gray-800;
+}
+
+a {
+  @apply dark:text-gray-100;
+}
+
+.logo {
+  font-family: "Dancing Script", cursive;
+  font-weight: 900;
+}
+
+.active {
+  @apply text-orange-600 dark:text-orange-600 font-semibold;
+}
+
+.nav-links a:hover {
+  @apply text-orange-600 transition-all duration-300;
+}
+
+button {
+  @apply !shadow-none;
+}
+
+.contact-form .ant-input {
+  @apply !shadow-none border-orange-400 focus:border-orange-600 hover:!border-orange-600;
+}

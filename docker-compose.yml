@@ -1,0 +1,68 @@
+name: my_ecommerce_app
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27018:27017"
+    restart: always
+    networks:
+      - my_ecommerce_app
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=pujan
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=pujan123
+      - ME_CONFIG_MONGODB_AUTHDATABASE=my_ecommerce_app
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+    networks:
+      - my_ecommerce_app
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    env_file: ./backend/.env
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - my_ecommerce_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - my_ecommerce_app
+    ports:
+      - "5173:5173"
+    command: npm run dev -- --host
+    depends_on:
+      - api
+
+volumes:
+  mongo_data:
+
+networks:
+  my_ecommerce_app:
+    driver: bridge
